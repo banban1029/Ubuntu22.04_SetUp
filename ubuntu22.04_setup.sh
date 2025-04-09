@@ -15,6 +15,7 @@ sudo apt autoremove -y
 
 #install 
 sudo apt install -y wget
+sudo apt install -y gpg
 sudo apt install -y flatpak
 sudo apt install -y sed
 
@@ -41,30 +42,21 @@ sudo apt install -y gimp
 #install blender
 sudo apt install -y blender
 
-#install simplescreenrecorder
-sudo apt-add-repository ppa:maarten-baert/simplescreenrecorder
-sudo apt update
-sudo apt install -y simplescreenrecorder
-
 #install video
 sudo apt install -y ubuntu-restricted-extras
 sudo apt install -y vlc
 
 #install chrome
-mkdir -p $HOME/Download/install_file
-wget -P $HOME/Download/install_file https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-sudo apt install -y $HOME/Download/install_file/google-chrome-stable_current_amd64.deb
+mkdir -p $HOME/Downloads/install_file
+wget -P $HOME/Downloads/install_file https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo apt install -y $HOME/Downloads/install_file/google-chrome-stable_current_amd64.deb
+
+#install Notion
+sudo snap install notion-desktop
 
 #install slack --version:4.39.95
-wget -P $HOME/Download/install_file https://downloads.slack-edge.com/desktop-releases/linux/x64/4.39.95/slack-desktop-4.39.95-amd64.deb
-sudo apt install -y $HOME/Download/install_file/slack-desktop-*.deb
-
-#install hydrapaper
-flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-flatpak install flathub org.gabmus.hydrapaper
-
-#install Tex
-sudo apt install -y texlive-full
+wget -P $HOME/Downloads/install_file https://downloads.slack-edge.com/desktop-releases/linux/x64/4.39.95/slack-desktop-4.39.95-amd64.deb
+sudo apt install -y $HOME/Downloads/install_file/slack-desktop-*.deb
 
 #install utilities
 sudo apt install -y vim gnome-tweaks curl apt-transport-https
@@ -79,16 +71,15 @@ echo \
   "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" \
      | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 sudo apt update
-sudo apt install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
 #install vscode
-wget -P $HOME/Download/install_file -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
-sudo install -D -o root -g root -m 644 $HOME/Download/install_file/packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
+wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > packages.microsoft.gpg
+sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
 echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" |sudo tee /etc/apt/sources.list.d/vscode.list > /dev/null
 rm -f packages.microsoft.gpg
 sudo apt update
-sudo apt install code
-echo {\r\n\t"keyboard.dispatch": "keyCode"\r\n} > $HOME/.config/Code/User/setting.json
+sudo apt install -y code
 
 #install mozc
 sudo apt install -y ibus-mozc 
@@ -108,3 +99,15 @@ sudo apt -y update
 sudo apt install -y ros-humble-desktop
 sudo apt install -y ros-dev-tools
 echo "source /opt/ros/humble/setup.bash" >> ~/.bashrc
+
+#install Tex
+sudo apt install -y texlive-full
+
+#install hydrapaper
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+flatpak install flathub org.gabmus.hydrapaper
+
+#install simplescreenrecorder
+sudo apt-add-repository ppa:maarten-baert/simplescreenrecorder
+sudo apt update
+sudo apt install -y simplescreenrecorder
